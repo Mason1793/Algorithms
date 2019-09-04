@@ -5,10 +5,7 @@ package leetcode.dynamic_programming;
  * @date 2019-09-04
  */
 public class Solution {
-    public static void main(String[] args){
-       int[] nums = {2,7,9,3,1};
-       new Solution().rob(nums);
-    }
+    
     /**
      * 198
      * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，
@@ -49,8 +46,30 @@ public class Solution {
         return f[n];
     }
 
+    /**
+     * 322
+     * 给定不同面额的硬币 coins 和一个总金额 amount。
+     * 编写一个函数来计算可以凑成总金额所需的最少的硬币个数。
+     * 如果没有任何一种硬币组合能组成总金额，返回 -1。
+     */
+    public int coinChange(int[] coins, int amount) {
+        int[] f = new int[amount+1];
+        for(int i=1;i<=amount;i++){
+            f[i] = amount+1;
+            for(int j=0;j<coins.length;j++){
+                int v = coins[j];
+                if(i-v<0){
+                    continue;
+                }
+                f[i] = Math.min(1+f[i-v],f[i]);
+            }
+        }
+        System.out.println(f[amount]);
+        return f[amount]>amount?-1:f[amount];
+    }
 
-
-
-
+    public static void main(String[] args){
+        int[] nums = {474,83,404,3};
+        new Solution().coinChange(nums,264);
+     }
 }

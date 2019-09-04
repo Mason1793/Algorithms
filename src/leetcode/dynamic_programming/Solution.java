@@ -1,5 +1,10 @@
 package leetcode.dynamic_programming;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author Mason
  * @date 2019-09-04
@@ -68,8 +73,35 @@ public class Solution {
         return f[amount]>amount?-1:f[amount];
     }
 
+    /**
+     * 128
+     * hard!
+     * 给定一个未排序的整数数组，找出最长连续序列的长度。
+     */
+    public int longestConsecutive(int[] nums) {
+        int max = 0;
+        Set<Integer> set = new HashSet<Integer>();
+        for(int i = 0;i<nums.length;i++){
+            set.add(nums[i]);
+        }
+        for(int val : set){
+            if(!set.contains(val-1)){
+                int temp_max = 1;
+                int temp_val = val;
+                while(set.contains(temp_val+1)){
+                    temp_max++;
+                    temp_val++;
+                }
+                max = Math.max(temp_max,max);
+            }
+        }
+       
+        System.out.println(max);
+        return max;
+    }
+
     public static void main(String[] args){
-        int[] nums = {474,83,404,3};
-        new Solution().coinChange(nums,264);
+        int[] nums = {0,0,-1};
+        new Solution().longestConsecutive(nums);
      }
 }

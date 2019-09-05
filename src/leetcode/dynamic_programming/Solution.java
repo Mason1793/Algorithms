@@ -4,13 +4,63 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import leetcode.dynamic_programming.TreeNode;
 /**
  * @author Mason
  * @date 2019-09-04
  */
 public class Solution {
+    /**
+     * 53
+     * 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int[] f = new int[nums.length];
+        f[0] = nums[0];
+        int max = f[0];
+        for(int i=1;i<nums.length;i++){
+            if(f[i-1]>0){
+                f[i] = f[i-1]+nums[i];
+            }else{
+                f[i] = nums[i];
+            }
+            
+            max = Math.max(max,f[i]);
+        }
+        return max;
+    }
     
+    /**
+     * 70
+     * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+     * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        int f = 1;
+        int f1 = 2;
+        if(n==1){
+            return 1;
+        }
+        if(n==2){
+            return 2;
+        }
+        int res = 0;
+        for(int i=3;i<=n;i++){
+            res = f+f1;
+            f = f1;
+            f1 = res;
+            
+        }
+        System.out.println(res);
+        return res;
+    }
     /**
      * 198
      * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，
@@ -100,8 +150,55 @@ public class Solution {
         return max;
     }
 
+    /**
+     * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        int max_length = 0;
+        int[] f = new int[nums.length];
+        for(int i=0;i<nums.length;i++){
+            f[i] = 1;
+            for(int j = i-1;j>=0;j--){
+                if(nums[i]>nums[j]){
+                    f[i] = Math.max(f[j]+1, f[i]);
+                }
+            }
+            max_length = Math.max(max_length, f[i]);
+        }
+        System.out.println(max_length);
+        return max_length;
+    }
+    /**
+     * 395
+     * 至少有K个重复字符的最长子串
+     * 找到给定字符串（由小写字符组成）中的最长子串 T ， 
+     * 要求 T 中的每一字符出现次数都不少于 k 。输出 T 的长度。
+     * @param s
+     * @param k
+     * @return
+     */
+    public int longestSubstring(String s, int k) {
+        int[] f = new int[26];
+        int res=0;
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
+            f[c-'a']=f[c-'a']+1;
+            
+        }
+        for(int i=0;i<f.length;i++){
+            if(f[i]>=k){
+                res+=f[i];
+            }
+        }
+        System.out.println(res);
+        return res;
+    }
+
     public static void main(String[] args){
-        int[] nums = {0,0,-1};
-        new Solution().longestConsecutive(nums);
+        int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+        
+        new Solution().maxSubArray(nums);
      }
 }

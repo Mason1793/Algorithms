@@ -61,6 +61,40 @@ public class Solution {
         System.out.println(res);
         return res;
     }
+
+    /**
+     * 122
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        if(prices==null||prices.length==0||prices.length==1){
+            return 0;
+        }
+        int[] f=new int[prices.length];
+        int max=0;
+        for(int i=1;i<prices.length;i++){
+            int temp=prices[i]-prices[i-1];
+            f[i]=f[i-1]+temp;
+            if(f[i]<0){
+                f[i]=0;
+            }
+            max=Math.max(f[i], max);
+        }
+
+        return max;
+    }
+
+    public int maxProfit1(int[] prices){
+        int max=0;
+        for(int i=1;i<prices.length;i++){
+            if(prices[i]>prices[i-1]){
+                max+=(prices[i]-prices[i-1]);
+            }
+        }
+        return max;
+    }
+
     /**
      * 198
      * 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，
@@ -197,8 +231,10 @@ public class Solution {
     }
 
     public static void main(String[] args){
-        int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+        int[] nums = {7,6,4,3,1};
         
-        new Solution().maxSubArray(nums);
+        System.out.println(new Solution().maxProfit(nums)); 
+        
+
      }
 }
